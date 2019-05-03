@@ -11,7 +11,7 @@ class Teams extends React.Component {
     this.state = {
       teams: [],
       teamNames: [],
-      filteredTeamNames: []
+      filteredTeam: []
     };
     this.filterList = this.filterList.bind(this);
   }
@@ -36,13 +36,15 @@ class Teams extends React.Component {
   }
 
   filterList(event) {
-    var updatedList = this.state.teamNames;
+    var updatedList = this.state.teams;
     console.log("updated list below");
-    console.log(updatedList);
-    updatedList = updatedList.filter(function(item) {
-      return item.toLowerCase().search(event.target.value.toLowerCase()) !== -1;
+    let filtered = updatedList.filter(item => {
+      return (
+        item.name.toLowerCase().indexOf(event.target.value.toLowerCase()) >= 0
+      );
     });
-    this.setState({ filteredTeamNames: updatedList });
+    console.log(filtered);
+    this.setState({ filteredTeam: filtered });
   }
 
   render() {
@@ -67,14 +69,21 @@ class Teams extends React.Component {
         </div>
         <div className="col-12">
           <ul>
-            {this.state.teams &&
-              this.state.teams.map(team => (
-                <Link key={team.id} to={`/${team.id}`}>
-                  <li key={team.id} className="list-group-item">
-                    <p>{team.name}</p>
-                  </li>
-                </Link>
-              ))}
+            {this.state.teams && this.state.filteredTeam.length
+              ? this.state.filteredTeam.map(team => (
+                  <Link key={team.id} to={`/${team.id}`}>
+                    <li key={team.id} className="list-group-item">
+                      <p>{team.name}</p>
+                    </li>
+                  </Link>
+                ))
+              : this.state.teams.map(team => (
+                  <Link key={team.id} to={`/${team.id}`}>
+                    <li key={team.id} className="list-group-item">
+                      <p>{team.name}</p>
+                    </li>
+                  </Link>
+                ))}
           </ul>
         </div>
       </div>

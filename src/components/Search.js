@@ -26,7 +26,7 @@ class Search extends Component {
   filterList(event) {
     var updatedList = this.state.initialItems;
     updatedList = updatedList.filter(function(item) {
-      return item.toLowerCase().search(event.target.value.toLowerCase()) !== -1;
+      return item.toLowerCase().indexOf(event.target.value.toLowerCase()) >= 0;
     });
     this.setState({ items: updatedList });
   }
