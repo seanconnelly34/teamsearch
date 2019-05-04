@@ -1,15 +1,30 @@
+.card {
+  padding: 41px;
+}
 body {
   background-color: #fbfbfb;
 }
+.logo {
+  width: 300px;
+  margin: auto;
+  margin-top: 20px;
+}
+.teams-list {
+  padding-left: 0px;
+}
 h1 {
   font-size: 2rem;
-  color: #4a4a4a;
-  margin: 20px 0px;
+  color: #04545d;
+  margin: 0px 0px 10px 0px;
 }
 h2 {
-  font-size: 1.7rem;
-  color: #4a4a4a;
+  font-size: 1.2rem;
+  text-align: center;
+  color: #04545d;
   margin: 40px 0px 20px 0px;
+}
+a {
+  color: #0056b3;
 }
 span {
   color: #ccc;
@@ -18,7 +33,7 @@ p {
   margin-bottom: 0;
 }
 p strong {
-  color: #4a4a4a;
+  color: #04545d;
 }
 .back-button {
   padding: 10px 20px;
@@ -27,6 +42,7 @@ p strong {
   border-radius: 4px;
   color: white;
   margin-top: 20px;
+  margin-bottom: 10px;
 }
 
 .back-button:hover {

@@ -1,9 +1,6 @@
 import React from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
-import Card from "@material-ui/core/Card";
-import CardContent from "@material-ui/core/CardContent";
-import Search from "./Search";
 
 class Teams extends React.Component {
   constructor() {
@@ -54,6 +51,7 @@ class Teams extends React.Component {
     console.log(this.state.teamNames);
     return (
       <div className="container">
+        <h1>List of Teams</h1>
         <form>
           <fieldset className="form-group">
             <input
@@ -64,28 +62,23 @@ class Teams extends React.Component {
             />
           </fieldset>
         </form>
-        <div className="col-12">
-          <h1>List of Teams</h1>
-        </div>
-        <div className="col-12">
-          <ul>
-            {this.state.teams && this.state.filteredTeam.length
-              ? this.state.filteredTeam.map(team => (
-                  <Link key={team.id} to={`/${team.id}`}>
-                    <li key={team.id} className="list-group-item">
-                      <p>{team.name}</p>
-                    </li>
-                  </Link>
-                ))
-              : this.state.teams.map(team => (
-                  <Link key={team.id} to={`/${team.id}`}>
-                    <li key={team.id} className="list-group-item">
-                      <p>{team.name}</p>
-                    </li>
-                  </Link>
-                ))}
-          </ul>
-        </div>
+        <ul className="teams-list">
+          {this.state.teams && this.state.filteredTeam.length
+            ? this.state.filteredTeam.map(team => (
+                <Link key={team.id} to={`/${team.id}`}>
+                  <li key={team.id} className="list-group-item">
+                    <p>{team.name}</p>
+                  </li>
+                </Link>
+              ))
+            : this.state.teams.map(team => (
+                <Link key={team.id} to={`/${team.id}`}>
+                  <li key={team.id} className="list-group-item">
+                    <p>{team.name}</p>
+                  </li>
+                </Link>
+              ))}
+        </ul>
       </div>
     );
   }

@@ -53,19 +53,24 @@ class Team extends Component {
           <Link to="/">
             <p className="back-button">Back</p>
           </Link>
-          <h1>
-            {this.state.team.name} <span>Team</span>
-          </h1>
-          {this.state.leader && <User id={this.state.leader} leader={true} />}
+          <Card className="card">
+            <CardContent>
+              <h1>
+                {this.state.team.name} <span>Team</span>
+              </h1>
+              {this.state.leader && (
+                <User id={this.state.leader} leader={true} />
+              )}
 
-          <p>
-            <strong>Number of Members:</strong> {this.state.members.length}
-          </p>
-
+              <p>
+                <strong>Number of Members:</strong> {this.state.members.length}
+              </p>
+            </CardContent>
+          </Card>
           <h2>Members</h2>
 
           {this.state.members.map((member, index) => (
-            <Card>
+            <Card className="card">
               <CardContent>
                 <User key={index} id={member} leader={false} />
               </CardContent>

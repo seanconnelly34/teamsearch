@@ -16,7 +16,6 @@ class User extends Component {
 
   componentDidMount() {
     const userId = this.props.id;
-    const leader = this.props.leader;
 
     this._asyncRequest = axios
       .get(
