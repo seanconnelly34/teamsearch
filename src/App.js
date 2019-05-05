@@ -8,8 +8,8 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <div class="row m-0">
-          <img className="logo" src={logo} />
+        <div className="row m-0">
+          <img alt="Tempo Software Montreal logo" className="logo" src={logo} />
         </div>
       </header>
       <Main />

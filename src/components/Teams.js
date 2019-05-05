@@ -20,7 +20,6 @@ class Teams extends React.Component {
       )
       .then(res => {
         const teams = res.data;
-
         const teamnames = teams.map(function(obj) {
           return obj.name;
         });
@@ -34,21 +33,16 @@ class Teams extends React.Component {
 
   filterList(event) {
     var updatedList = this.state.teams;
-    console.log("updated list below");
     let filtered = updatedList.filter(item => {
       return (
         item.name.toLowerCase().indexOf(event.target.value.toLowerCase()) >= 0
       );
     });
-    console.log(filtered);
+
     this.setState({ filteredTeam: filtered });
   }
 
   render() {
-    console.log("TEAMS items array");
-    console.log(this.state.teams);
-    console.log("TEAMNAME items array");
-    console.log(this.state.teamNames);
     return (
       <div className="container">
         <h1>List of Teams</h1>

@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import axios from "axios";
+import MemberTeams from "./MemberTeams";
 
 class User extends Component {
   constructor(props) {
@@ -34,6 +35,7 @@ class User extends Component {
 
   render() {
     const isLeader = this.state.isLeader;
+
     return (
       <div>
         {!isLeader ? (
@@ -49,17 +51,14 @@ class User extends Component {
               <strong>User id:</strong> {this.state.id}
             </p>
 
-            <p>
-              <strong>Team Lead of team #:</strong> {this.state.teamLeadOf}
-            </p>
-            <p>
-              <strong>Member of team(s): </strong>
-              <ul>
-                {this.state.teamMemberOf.map((teams, index) => (
-                  <li key={index}>{teams}</li>
-                ))}
-              </ul>
-            </p>
+            {this.state.teamLeadOf.length ? (
+              <MemberTeams
+                teamId={this.state.teamMemberOf}
+                teamLead={this.state.teamLeadOf}
+              />
+            ) : (
+              <MemberTeams teamId={this.state.teamMemberOf} teamLead="0" />
+            )}
           </div>
         ) : (
           <div>
