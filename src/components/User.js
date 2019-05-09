@@ -1,36 +1,31 @@
 import React, { Component } from "react";
 import axios from "axios";
-import MemberTeams from "./MemberTeams";
 
 class User extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      id: "",
       name: "",
       username: "",
-      id: props.id,
       teamLeadOf: "",
       teamMemberOf: [],
       isLeader: props.leader
     };
   }
 
-  componentDidMount() {
+  async componentDidMount() {
     const userId = this.props.id;
 
-    this._asyncRequest = axios
-      .get(
-        "http://tempo-test.herokuapp.com/7d1d085e-dbee-4483-aa29-ca033ccae1e4/1/user/" +
-          userId
-      )
-      .then(res => {
-        this.setState({
-          name: res.data.name,
-          username: res.data.username,
-          teamLeadOf: res.data.lead_teams,
-          teamMemberOf: res.data.member_teams
-        });
-      });
+    const user = await axios.get("http://tempo-test.herokuapp.com/7d1d085e-dbee-4483-aa29-ca033ccae1e4/1/user/" + userId)
+
+    this.setState({
+      id: user.data.id,
+      name: user.data.name,
+      username: user.data.username,
+      teamLeadOf: user.data.lead_teams,
+      teamMemberOf: user.data.member_teams
+    });
   }
 
   render() {
@@ -38,7 +33,10 @@ class User extends Component {
 
     return (
       <div>
-        {!isLeader ? (
+        {this.state.id &&
+        this.state.name &&
+        this.state.username &&
+        !isLeader ? (
           <div>
             <p>
               <strong>Username:</strong> {this.state.username}
@@ -50,15 +48,6 @@ class User extends Component {
             <p>
               <strong>User id:</strong> {this.state.id}
             </p>
-
-            {this.state.teamLeadOf.length ? (
-              <MemberTeams
-                teamId={this.state.teamMemberOf}
-                teamLead={this.state.teamLeadOf}
-              />
-            ) : (
-              <MemberTeams teamId={this.state.teamMemberOf} teamLead="0" />
-            )}
           </div>
         ) : (
           <div>

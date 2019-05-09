@@ -10,6 +10,7 @@ class MemberTeams extends Component {
       filteredTeams: [],
       teamLeadOf: ""
     };
+    this.teamLeadFilter = this.teamLeadFilter.bind(this);
   }
 
   componentDidMount() {
@@ -28,17 +29,26 @@ class MemberTeams extends Component {
           .map(g => g.name);
 
         //filter team lead id's with id's of full array of teams
-
-        const leaderOfTeam = teams
-          .filter(g => this.props.teamLead.includes(g.id))
-          .map(g => g.name);
+        const leadOf = this.teamLeadFilter("3");
 
         this.setState({
           teams: res.data,
           filteredTeams: memberTeams,
-          teamLeadOf: leaderOfTeam
+          teamLeadOf: leadOf
         });
       });
+  }
+
+  teamLeadFilter(arg) {
+    console.log("fucka", arg);
+    const leaderOfTeam = arg;
+    if (leaderOfTeam > 0) {
+      leaderOfTeam
+        .filter(g => this.props.teamLead.includes(g.id))
+        .map(g => g.ame);
+      return leaderOfTeam;
+    }
+    return "0";
   }
 
   render() {
@@ -46,7 +56,7 @@ class MemberTeams extends Component {
       <>
         <p>
           <strong>Team Lead of: </strong>
-          {this.props.teamLead[0] === 0 ? (
+          {this.state.teamLeadOf === "0" ? (
             <span>Not a team lead.</span>
           ) : (
             this.state.teamLeadOf

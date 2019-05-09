@@ -5,28 +5,28 @@ import User from "./User";
 import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
 
-// The Player looks up the player using the number parsed from
-// the URL's pathname. If no player is found with the given
-// number, then a "player not found" message is displayed.
-//
 class Team extends Component {
   constructor(props) {
     super(props);
     this.state = {
       team: {},
       teamId: this.props.match.params.id,
-      members: [],
       leader: "",
-      users: [],
-      filteredUsers: []
+      membersId: [],
+      filteredUsers: [],
+      onKeyFilter: [],
+      fullUsers: [],
+      searchText: ""
     };
     this.filterList = this.filterList.bind(this);
+    this.getUsers = this.getUsers.bind(this);
   }
   //
 
-  componentDidMount() {
+  async componentDidMount() {
     const team = this.props.match.params.id;
-    axios
+
+    await axios
       .all([
         axios.get(
           "http://tempo-test.herokuapp.com/7d1d085e-dbee-4483-aa29-ca033ccae1e4/1/team/" +
@@ -37,36 +37,67 @@ class Team extends Component {
         )
       ])
       .then(
-        axios.spread((team, user) => {
-          //filter all users in an array
-          const listAllUsers = user.data.map(function(obj) {
-            return obj.name;
-          });
+        axios.spread(async (team, user) => {
+          const members = team.data.members;
+          const users = user.data;
+          const membersInfo = users
+            .filter(g => members.includes(g.id))
+            .map(g => ({ id: g.id, name: g.name }));
+
+          const fullUsers = await this.getUsers(members);
 
           this.setState({
             team: team.data,
-            members: team.data.members,
+            membersId: team.data.members,
             leader: team.data.lead,
-            users: listAllUsers
+            filteredUsers: membersInfo,
+            fullUsers: fullUsers
           });
-          console.log(this.state.users);
         })
       )
+
       .catch(err => {
         console.log(err);
       });
   }
 
-  filterList(event) {
-    var updatedList = this.state.users;
-    let filtered = updatedList.filter((item, index) => {
-      return console.log("++++++"), console.log(item), console.log("--------");
-    });
+  getUsers = async users => {
+    let array = [];
+    let f = {};
+    for (const user of users) {
+      f = await axios.get(
+        "http://tempo-test.herokuapp.com/7d1d085e-dbee-4483-aa29-ca033ccae1e4/1/user/" +
+          user
+      );
+      array.push(f.data);
+      console.log("f.data", f.data);
+      console.log("array", array);
+    }
+    return array;
+  };
 
-    this.setState({ filteredUsers: filtered });
+  onSearchTextChange = event => {
+    this.setState({ searchText: event.target.value.toLowerCase() });
+  };
+
+  filterList(searchTerm) {
+    const { filteredUsers } = this.state;
+
+    if (!searchTerm || !searchTerm.length) {
+      return filteredUsers;
+    }
+    return filteredUsers.filter(item => {
+      return item.name.toLowerCase().indexOf(searchTerm) >= 0;
+    });
   }
 
   render() {
+    console.log("fullllllllllll", this.state.fullUsers);
+
+    const { searchText, filteredUsers } = this.state;
+    const userList =
+      filteredUsers && filteredUsers.length ? this.filterList(searchText) : [];
+
     return (
       <div className="container">
         <div className="col-12">
@@ -83,7 +114,8 @@ class Team extends Component {
               )}
 
               <p>
-                <strong>Number of Members:</strong> {this.state.members.length}
+                <strong>Number of Members:</strong>{" "}
+                {this.state.membersId.length}
               </p>
             </CardContent>
           </Card>
@@ -94,18 +126,19 @@ class Team extends Component {
                 type="text"
                 className="form-control form-control-lg"
                 placeholder="Search"
-                onChange={this.filterList}
+                onChange={this.onSearchTextChange}
               />
             </fieldset>
           </form>
 
-          {this.state.members.map((member, index) => (
-            <Card key={index} className="card">
-              <CardContent>
-                <User id={member} leader={false} />
-              </CardContent>
-            </Card>
-          ))}
+          {userList &&
+            userList.map((member, index) => (
+              <Card key={member.id} className="card">
+                <CardContent>
+                  <User id={member.id} leader={false} />
+                </CardContent>
+              </Card>
+            ))}
         </div>
       </div>
     );
