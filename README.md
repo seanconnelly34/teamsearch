@@ -15,6 +15,4 @@ Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
 Incomplete:
 
-1. The first user listed in each team does not load. I was unsure how fix this rendering/mounting issue.
-2. Searching each user in a team page was more complicated that orignally thought. It could be finished but would take more time.
 3. I am unfamiliar with unit testing.
