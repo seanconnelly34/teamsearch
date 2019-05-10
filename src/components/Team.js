@@ -47,8 +47,6 @@ class Team extends Component {
           const membersInfo = users
             .filter(g => members.includes(g.id))
             .map(g => ({ id: g.id, name: g.name }));
-          console.log("member ids", members);
-          console.log("members infooooooooooooooooo", membersInfo);
 
           this.setState({
             team: team.data,
@@ -58,7 +56,6 @@ class Team extends Component {
           });
         })
       )
-
       .catch(err => {
         console.log(err);
       });
@@ -69,6 +66,7 @@ class Team extends Component {
     this.setState({ searchText: event.target.value.toLowerCase() });
   };
 
+  //filter users search, if empty, return state list of full user members of this team
   filterList(searchTerm) {
     const { filteredUsers } = this.state;
 

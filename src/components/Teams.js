@@ -19,7 +19,10 @@ class Teams extends React.Component {
         `http://tempo-test.herokuapp.com/7d1d085e-dbee-4483-aa29-ca033ccae1e4/1/team/`
       )
       .then(res => {
+        //get full list of all teams
         const teams = res.data;
+        //get team names from array of team objects.
+        //To be used for comparing user input and filtering team names search
         const teamnames = teams.map(function(obj) {
           return obj.name;
         });
@@ -31,6 +34,7 @@ class Teams extends React.Component {
       });
   }
 
+  //filter user input search of team names in `teamNames` array
   filterList(event) {
     var updatedList = this.state.teams;
     let filtered = updatedList.filter(item => {

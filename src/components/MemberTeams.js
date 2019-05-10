@@ -12,16 +12,15 @@ class MemberTeams extends Component {
   }
 
   componentDidMount() {
-    console.log(this.props.teamId);
     this._asyncRequest = axios
       .get(
         "http://tempo-test.herokuapp.com/7d1d085e-dbee-4483-aa29-ca033ccae1e4/1/team/"
       )
       .then(res => {
+        //full list of all teams
         const teams = res.data;
 
-        //filter member of teams, compare team id's of member Teams
-        //with full list of teams
+        //get list of member teams by comparing id's of member teams with full list of teams
         const memberTeams = teams
           .filter(g => this.props.teamId.includes(g.id))
           .map(g => g.name);

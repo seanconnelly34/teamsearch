@@ -16,8 +16,9 @@ class User extends Component {
   }
 
   async componentDidMount() {
+    //decalre user id
     const userId = this.props.id;
-
+    //get full info on user by appending user id to axios request url
     const user = await axios.get(
       "http://tempo-test.herokuapp.com/7d1d085e-dbee-4483-aa29-ca033ccae1e4/1/user/" +
         userId
@@ -37,6 +38,7 @@ class User extends Component {
 
     return (
       <div>
+        //if user is not a leader render the below code
         {!isLeader ? (
           this.state.id &&
           this.state.name &&
@@ -70,6 +72,8 @@ class User extends Component {
             </table>
           )
         ) : (
+          //if user is a leader, reutrn code below
+          //used at the top of the team page to show the team leader
           <p>
             <strong>Team Lead: </strong>
             {this.state.name}
