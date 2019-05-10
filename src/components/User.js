@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import axios from "axios";
+import MemberTeams from "./MemberTeams";
 
 class User extends Component {
   constructor(props) {
@@ -17,7 +18,10 @@ class User extends Component {
   async componentDidMount() {
     const userId = this.props.id;
 
-    const user = await axios.get("http://tempo-test.herokuapp.com/7d1d085e-dbee-4483-aa29-ca033ccae1e4/1/user/" + userId)
+    const user = await axios.get(
+      "http://tempo-test.herokuapp.com/7d1d085e-dbee-4483-aa29-ca033ccae1e4/1/user/" +
+        userId
+    );
 
     this.setState({
       id: user.data.id,
@@ -33,26 +37,43 @@ class User extends Component {
 
     return (
       <div>
-        {this.state.id &&
-        this.state.name &&
-        this.state.username &&
-        !isLeader ? (
-          <div>
-            <p>
-              <strong>Username:</strong> {this.state.username}
-            </p>
-            <p>
-              <strong>Name:</strong> {this.state.name}
-            </p>
+        {!isLeader ? (
+          this.state.id &&
+          this.state.name &&
+          this.state.username && (
+            <table>
+              <tr>
+                <td>
+                  <p>{this.state.id}</p>
+                </td>
 
-            <p>
-              <strong>User id:</strong> {this.state.id}
-            </p>
-          </div>
+                <td>
+                  <p>{this.state.name}</p>
+                </td>
+
+                <td>
+                  <p>{this.state.username}</p>
+                </td>
+
+                <td>
+                  <MemberTeams teamId={this.state.teamMemberOf} />
+                </td>
+
+                <td>
+                  {!this.state.teamLeadOf.length ? (
+                    <p>No</p>
+                  ) : (
+                    <p>{this.state.teamLeadOf}</p>
+                  )}
+                </td>
+              </tr>
+            </table>
+          )
         ) : (
-          <div>
-            <strong>Team Lead:</strong> {this.state.name}
-          </div>
+          <p>
+            <strong>Team Lead: </strong>
+            {this.state.name}
+          </p>
         )}
       </div>
     );

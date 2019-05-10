@@ -14,18 +14,18 @@ class Team extends Component {
       leader: "",
       membersId: [],
       filteredUsers: [],
-      onKeyFilter: [],
-      fullUsers: [],
       searchText: ""
     };
     this.filterList = this.filterList.bind(this);
-    this.getUsers = this.getUsers.bind(this);
   }
   //
 
   async componentDidMount() {
+    //team id
     const team = this.props.match.params.id;
 
+    //get team from team id passed into get get request
+    //get full list of all users not related to team
     await axios
       .all([
         axios.get(
@@ -38,20 +38,23 @@ class Team extends Component {
       ])
       .then(
         axios.spread(async (team, user) => {
+          //id's of member belonging to team
           const members = team.data.members;
+          //all members, name and their id's
           const users = user.data;
+          //get member name and id from users data\
+          //used to compare search term with list of names of members
           const membersInfo = users
             .filter(g => members.includes(g.id))
             .map(g => ({ id: g.id, name: g.name }));
-
-          const fullUsers = await this.getUsers(members);
+          console.log("member ids", members);
+          console.log("members infooooooooooooooooo", membersInfo);
 
           this.setState({
             team: team.data,
             membersId: team.data.members,
             leader: team.data.lead,
-            filteredUsers: membersInfo,
-            fullUsers: fullUsers
+            filteredUsers: membersInfo
           });
         })
       )
@@ -61,21 +64,7 @@ class Team extends Component {
       });
   }
 
-  getUsers = async users => {
-    let array = [];
-    let f = {};
-    for (const user of users) {
-      f = await axios.get(
-        "http://tempo-test.herokuapp.com/7d1d085e-dbee-4483-aa29-ca033ccae1e4/1/user/" +
-          user
-      );
-      array.push(f.data);
-      console.log("f.data", f.data);
-      console.log("array", array);
-    }
-    return array;
-  };
-
+  //set search term to state, on input change
   onSearchTextChange = event => {
     this.setState({ searchText: event.target.value.toLowerCase() });
   };
@@ -92,8 +81,6 @@ class Team extends Component {
   }
 
   render() {
-    console.log("fullllllllllll", this.state.fullUsers);
-
     const { searchText, filteredUsers } = this.state;
     const userList =
       filteredUsers && filteredUsers.length ? this.filterList(searchText) : [];
@@ -125,16 +112,50 @@ class Team extends Component {
               <input
                 type="text"
                 className="form-control form-control-lg"
-                placeholder="Search"
+                placeholder="Search by first or last name"
                 onChange={this.onSearchTextChange}
               />
             </fieldset>
           </form>
 
+          <Card className="header-card">
+            <CardContent className="header-content">
+              <table>
+                <tr>
+                  <td>
+                    <p>
+                      <strong>id</strong>
+                    </p>
+                  </td>
+                  <td>
+                    <p>
+                      <strong>Full Name</strong>
+                    </p>
+                  </td>
+                  <td>
+                    <p>
+                      <strong>Username</strong>
+                    </p>
+                  </td>
+                  <td>
+                    <p>
+                      <strong>Member of</strong>
+                    </p>
+                  </td>
+                  <td>
+                    <p>
+                      <strong>Team Leader</strong>
+                    </p>
+                  </td>
+                </tr>
+              </table>
+            </CardContent>
+          </Card>
+
           {userList &&
             userList.map((member, index) => (
-              <Card key={member.id} className="card">
-                <CardContent>
+              <Card key={member.id} className="header-card">
+                <CardContent className="header-content">
                   <User id={member.id} leader={false} />
                 </CardContent>
               </Card>
