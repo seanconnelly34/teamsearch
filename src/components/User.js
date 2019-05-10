@@ -38,7 +38,6 @@ class User extends Component {
 
     return (
       <div>
-        //if user is not a leader render the below code
         {!isLeader ? (
           this.state.id &&
           this.state.name &&
@@ -72,8 +71,6 @@ class User extends Component {
             </table>
           )
         ) : (
-          //if user is a leader, reutrn code below
-          //used at the top of the team page to show the team leader
           <p>
             <strong>Team Lead: </strong>
             {this.state.name}

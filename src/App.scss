@@ -1,0 +1,77 @@
+.card {
+  padding: 9px 40px;
+}
+.header-card {
+  padding: 0px 40px;
+}
+.header-content {
+  padding: 13px 17px !important;
+}
+
+table {
+  width: 100%;
+}
+table td {
+  width: 20%;
+}
+table td:first-child {
+  width: 5%;
+}
+table td:last-child {
+  width: 5%;
+}
+body {
+  background-color: #fbfbfb;
+  padding-bottom: 100px;
+}
+ul {
+  padding-left: 0px !important;
+  margin-left: 0px !important;
+  list-style-type: none;
+  font-size: 14px;
+  color: #04545d;
+}
+.logo {
+  width: 300px;
+  margin: auto;
+  margin-top: 20px;
+}
+.teams-list {
+  padding-left: 0px;
+}
+h1 {
+  font-size: 2rem;
+  color: #04545d;
+  margin: 0px 0px 10px 0px;
+}
+h2 {
+  font-size: 1.2rem;
+  text-align: center;
+  color: #04545d;
+  margin: 40px 0px 20px 0px;
+}
+a {
+  color: #0056b3;
+}
+span {
+  color: #ccc;
+}
+p {
+  margin-bottom: 0;
+}
+p strong {
+  color: #04545d;
+}
+.back-button {
+  padding: 10px 20px;
+  background-color: #2196f3;
+  display: inline-block;
+  border-radius: 4px;
+  color: white;
+  margin-top: 20px;
+  margin-bottom: 10px;
+}
+
+.back-button:hover {
+  background-color: #1976d2;
+}
