@@ -15,4 +15,4 @@ Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
 Incomplete:
 
-3. I am unfamiliar with unit testing.
+1. I am unfamiliar with unit testing.
